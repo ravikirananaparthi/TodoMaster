@@ -100,7 +100,21 @@ export default function Page() {
                   <CardDescription>Visualize your workflow with our kanban board</CardDescription>
                 </CardHeader>
                 <CardContent>
- 
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="bg-gray-100 p-4 rounded">
+                      <h3 className="font-bold mb-2">To Do</h3>
+                      <div className="bg-white p-2 rounded mb-2">Research competitors</div>
+                      <div className="bg-white p-2 rounded">Create wireframes</div>
+                    </div>
+                    <div className="bg-gray-100 p-4 rounded">
+                      <h3 className="font-bold mb-2">In Progress</h3>
+                      <div className="bg-white p-2 rounded">Develop MVP</div>
+                    </div>
+                    <div className="bg-gray-100 p-4 rounded">
+                      <h3 className="font-bold mb-2">Done</h3>
+                      <div className="bg-white p-2 rounded">Define project scope</div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
