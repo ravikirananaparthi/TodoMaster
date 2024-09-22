@@ -57,7 +57,7 @@ export default function Page() {
       </section>
 
       {/* Demo Section */}
-      <section className="py-20 bg-gray-200">
+      <section className="py-20 bg-gray-200 hidden md:block">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">See It in Action</h2>
           <Tabs defaultValue="todos" className="w-full max-w-3xl mx-auto">
@@ -100,21 +100,7 @@ export default function Page() {
                   <CardDescription>Visualize your workflow with our kanban board</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-gray-100 p-4 rounded">
-                      <h3 className="font-bold mb-2">To Do</h3>
-                      <div className="bg-white p-2 rounded mb-2">Research competitors</div>
-                      <div className="bg-white p-2 rounded">Create wireframes</div>
-                    </div>
-                    <div className="bg-gray-100 p-4 rounded">
-                      <h3 className="font-bold mb-2">In Progress</h3>
-                      <div className="bg-white p-2 rounded">Develop MVP</div>
-                    </div>
-                    <div className="bg-gray-100 p-4 rounded">
-                      <h3 className="font-bold mb-2">Done</h3>
-                      <div className="bg-white p-2 rounded">Define project scope</div>
-                    </div>
-                  </div>
+ 
                 </CardContent>
               </Card>
             </TabsContent>
