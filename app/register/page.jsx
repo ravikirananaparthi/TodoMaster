@@ -13,9 +13,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Context } from "@components/Clients";
-import { useRouter } from "next/navigation"; // For redirecting the user
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
+import { Loader2 } from "lucide-react";
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
@@ -23,11 +23,11 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const { setUser } = useContext(Context);
   const router = useRouter(); // For redirect
-
+  const [loading, setLoading] = useState(false);
   // Register Handler
   const registerHandler = async (e) => {
     e.preventDefault();
-
+    setLoading(true); // Set loading to true
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -45,9 +45,12 @@ export default function Register() {
       if (!data.success) return toast.error(data.message);
       setUser(data.user);
       toast.success(data.message);
-      router.push("/"); // Redirect to homepage or dashboard after registration
+      router.push("/tasklists"); // Redirect to homepage or dashboard after registration
     } catch (error) {
       return toast.error(error.message);
+    }
+    finally {
+      setLoading(false); // Set loading to false after the request is completed
     }
   };
 
@@ -148,9 +151,17 @@ export default function Register() {
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full">
+          {loading ? (
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : (
+              <Button type="submit" className="w-full">
               Register
-            </Button>
+              </Button>
+            )}
+
             <div className="flex items-center justify-between w-full text-sm">
               <a href="/login" className="text-primary hover:underline">
                 Already have an account?

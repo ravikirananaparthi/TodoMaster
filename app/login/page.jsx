@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { Eye, EyeOff, Lock, Mail, CheckSquare, LogOut } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,20 +13,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Context } from "@components/Clients";
-import { useRouter } from "next/navigation"; // For redirecting the user
-import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
+
+
 
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const { user, setUser } = useContext(Context);
-  const router = useRouter(); // For redirect
+  const router = useRouter();
 
-  // Login Handler
   const loginHandler = async (e) => {
-    e.preventDefault(); // Prevents page reload on form submit
+    e.preventDefault();
+    setLoading(true); // Set loading to true
 
     try {
       const res = await fetch("/api/auth/login", {
@@ -43,14 +46,17 @@ export default function Page() {
       if (!data.success) return toast.error(data.message);
       setUser(data.user);
       toast.success(data.message);
-      router.push("/"); // Redirect to the homepage or dashboard after login
+      router.push("/tasklists"); // Redirect after login
     } catch (error) {
-      return toast.error(error.message);
+      toast.error("Login failed. Please try again.");
+    } finally {
+      setLoading(false); // Set loading to false after the request is completed
     }
   };
+
   useEffect(() => {
     if (user?._id) {
-      router.push("/tasklists"); // Use router.push for client-side redirection
+      router.push("/tasklists");
     }
   }, [user, router]);
 
@@ -129,9 +135,17 @@ export default function Page() {
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full">
-              Sign In
-            </Button>
+            {/* Conditionally render the loading spinner button */}
+            {loading ? (
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : (
+              <Button type="submit" className="w-full">
+                Sign In
+              </Button>
+            )}
             <div className="flex items-center justify-between w-full text-sm">
               <a href="/register" className="text-primary hover:underline">
                 Don't have an account?
